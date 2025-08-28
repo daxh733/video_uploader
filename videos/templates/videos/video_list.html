@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video List</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f8f8f8; margin: 0; }
+        .container { max-width: 1100px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px #ccc; }
+        h1 { text-align: center; margin-bottom: 30px; }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        .video-card {
+            background: #f4f6fa;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px #ddd;
+            padding: 16px;
+            text-align: center;
+            transition: box-shadow 0.2s;
+        }
+        .video-card:hover {
+            box-shadow: 0 4px 16px #bbb;
+        }
+        .video-title {
+            font-size: 1.1em;
+            margin: 12px 0 8px 0;
+            color: #007bff;
+            text-decoration: none;
+            display: block;
+            word-break: break-all;
+        }
+        video {
+            width: 100%;
+            max-width: 320px;
+            height: 200px;
+            border-radius: 6px;
+            background: #000;
+        }
+        .upload-link {
+            display: inline-block;
+            margin-bottom: 24px;
+            padding: 10px 18px;
+            background: #007bff;
+            color: #fff;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .upload-link:hover {
+            background: #0056b3;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 10px; }
+            video { height: 140px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a class="upload-link" href="{% url 'upload_video_web' %}">Upload New Video</a>
+        <h1>Uploaded Videos</h1>
+        <div class="video-grid">
+        {% for video in videos %}
+            {% if video.file_id %}
+            <div class="video-card">
+                <a class="video-title" href="{% url 'serve_video' video.file_id %}" target="_blank">{{ video.title }}</a>
+                <video controls>
+                    <source src="{% url 'serve_video' video.file_id %}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            {% endif %}
+        {% empty %}
+            <p>No videos uploaded yet.</p>
+        {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
