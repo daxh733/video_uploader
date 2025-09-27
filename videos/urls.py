@@ -3,6 +3,7 @@ from . import views
 
 
 urlpatterns = [
+    path('', views.home, name='home'),
     path("upload/", views.upload_video, name="upload_video"),  # API endpoint
     path("upload-web/", views.upload_video_web, name="upload_video_web"),  # Web form
     path("list/", views.list_videos, name="list_videos"),

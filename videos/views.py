@@ -11,6 +11,9 @@ from django.http import StreamingHttpResponse, Http404
 
 fs = gridfs.GridFS(db)
 
+def home(request):
+    return render(request, 'index.html')
+
 @csrf_exempt
 def upload_video(request):
     if request.method == 'POST':
