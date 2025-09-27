@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: video-uploader
+    env: python
+    plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate
+    startCommand: gunicorn video_uploader.wsgi:application
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: video-uploader-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
+      - key: ALLOWED_HOSTS
+        value: .onrender.com
+
+databases:
+  - name: video-uploader-db
+    plan: free
